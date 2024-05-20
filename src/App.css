@@ -6,7 +6,7 @@
 
 .directory{
   border-radius: 10px;
-  background-image: url('../public/background-img.jpg');
+  background-image: url('/background-img.jpg');
   background-repeat: no-repeat;
   background-size: 100% 400px;
 }
