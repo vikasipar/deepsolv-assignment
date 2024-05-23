@@ -64,8 +64,8 @@ function App() {
     <>
     {/* to display user details */}
     {showUserDetails &&
-          <div onClick={() => setShowUserDetails(false)} className='w-screen h-[122%] overflow-hidden flex justify-center items-center bg-black/50 backdrop-blur-md absolute'>
-            <div className='w-[90%] md:w-[60%] mx-auto h-[60%] my-auto text-sm md:text-lg font-semibold rounded-xl p-2 bg-white border-2 border-stone-200 flex flex-col transition-all justify-center overflow-hidden gap-y-1'>
+          <div onClick={() => setShowUserDetails(false)} className='w-full h-[122%] overflow-hidden flex justify-center items-center bg-black/50 backdrop-blur-md absolute'>
+            <div className='w-[90%] md:w-[50%] mx-auto h-[60%] my-auto text-sm md:text-lg font-semibold rounded-xl p-2 bg-white border-2 border-stone-200 flex flex-col transition-all justify-center overflow-hidden gap-y-1'>
               <img className='w-[35%] md:w-[18%] my-2 mx-auto rounded-full border-2 border-stone-400' src={selectedUser.picture.large} alt={selectedUser.name.first} />
               <span>Name: {selectedUser.name.title} {selectedUser.name.first} {selectedUser.name.last}</span>
               <span>Address: {selectedUser.location.street.number},{selectedUser.location.street.name}, {selectedUser.location.city}, {selectedUser.location.state}, {selectedUser.location.country}, {selectedUser.location.postcode} </span>
