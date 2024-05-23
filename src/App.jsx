@@ -4,14 +4,19 @@ import { GoLocation } from "react-icons/go";
 import { FiPhoneCall } from "react-icons/fi";
 import { useState } from 'react';
 import './App.css';
+import { Link } from 'react-router-dom';
 
 const perPageUsers = 8;
 
 function App() {
   const [users, setUsers] = useState(results);
+  const [selectedUser, setSelectedUser] = useState([])
   const [searchValue, setSearchValue] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [showUserDetails, setShowUserDetails] = useState(false);
+  
+  console.log(showUserDetails);
 
   const handleChange = (event) => {
     const inputValue = event.target.value.toLowerCase();
@@ -47,7 +52,33 @@ function App() {
     setCurrentPage(pageNumber)
   }
 
+  function userClickHaandle(email){
+    setShowUserDetails(true);
+    const user = results.find((user) => user.email === email);
+    setSelectedUser(user);
+
+    // console.log(selectedUser);
+  }
+
   return (
+    <>
+    {/* to display user details */}
+    {showUserDetails &&
+          <div onClick={() => setShowUserDetails(false)} className='w-screen h-[122%] overflow-hidden flex justify-center items-center bg-black/50 backdrop-blur-md absolute'>
+            <div className='w-[90%] md:w-[60%] mx-auto h-[60%] my-auto text-sm md:text-lg font-semibold rounded-xl p-2 bg-white border-2 border-stone-200 flex flex-col transition-all justify-center overflow-hidden gap-y-1'>
+              <img className='w-[35%] md:w-[18%] my-2 mx-auto rounded-full border-2 border-stone-400' src={selectedUser.picture.large} alt={selectedUser.name.first} />
+              <span>Name: {selectedUser.name.title} {selectedUser.name.first} {selectedUser.name.last}</span>
+              <span>Address: {selectedUser.location.street.number},{selectedUser.location.street.name}, {selectedUser.location.city}, {selectedUser.location.state}, {selectedUser.location.country}, {selectedUser.location.postcode} </span>
+              <span>Email: {selectedUser.email}</span>
+              <span>Username: {selectedUser.login.username}</span>
+              <span>Password: {selectedUser.login.password}</span>
+              <span>DOB: {selectedUser.dob.date}</span>
+              <span>Age: {selectedUser.dob.age}</span>
+              <button className='bg-red-500 text-white w-[30%] md:w-[10%] mx-auto px-3 py-1 rounded-md md:rounded-xl mt-5 font-normal text-md' onClick={() => setShowUserDetails(false)}>close</button>
+            </div>
+          </div>
+        }
+
     <div className='directory'>
       <h1 className="text-center text-2xl font-bold text-white p-9">User Directory</h1>
 
@@ -67,8 +98,8 @@ function App() {
 
         <div className="w-full text-xl flex flex-col flex-wrap pt-9 items-center gap-3">
           <h3 className='text-stone-800 text-base md:text-lg md:text-white'>Total results found: {users.length}</h3>
-          {currentUsers.map((user) => (
-            <div key={user.email} className="w-[96%] md:w-[50%] mx-auto py-1 md:py-4 px-1 md:px-6 border-2 bg-white border-stone-300 rounded-xl flex shadow-sm hover:shadow-xl transition-all gap-x-4 items-center md:gap-x-9">
+          {!showUserDetails && currentUsers.map((user) => (
+            <div key={user.email} onClick={() => userClickHaandle(user.email)}  className="w-[96%] cursor-pointer md:w-[50%] mx-auto py-1 md:py-4 px-1 md:px-6 border-2 bg-white border-stone-300 rounded-xl flex shadow-sm hover:shadow-xl transition-all gap-x-4 items-center md:gap-x-9">
               <img src={user.picture.large} className="hidden md:block rounded-full" alt={user.name.first} />
               <img src={user.picture.medium} className="block md:hidden rounded-full" alt={user.name.first} />
               <div className="flex flex-col text-sm md:text-lg">
@@ -94,6 +125,7 @@ function App() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
